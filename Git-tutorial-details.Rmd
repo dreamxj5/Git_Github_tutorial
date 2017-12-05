@@ -1,0 +1,43 @@
+---
+title: "Git-Github-tutorial-details"
+author: "Jessica Walsh"
+date: "28 November 2017"
+output: html_document
+---
+
+## Description  
+
+Learn the benefits of using Git to track your changes, improve workflow and share code in collaborative projects. This will be designed for beginners, as we will go over the basics of Git and Github. Basic knowledge of Bash and R Studio will be helpful.
+
+![Git can be used to prevent this from happening!](phd101212s.gif)
+
+## Time and Place
+
+**Where:** !!! IMPORTANT !!! Workshop in different room than usual.  Room 3008, W.A.C. Bennett Library, SFU Burnaby Campus 
+
+**When:** Tuesday, December 5th, 2017 at 3:00-4:30 PM
+
+
+## Required Preparation
+
+### Assumed Knowledge
+
+Basic use of Bash Shell if preferred, but not necessary. 
+Basic use of R and RStudio, and understanding of RStudio Projects is preferable.
+
+
+### Software Dependencies
+
+1. Download Bash Sell, Git, a Text Editor, R and R studio.
+
+These user friendly instructions from Software Carpentry show how to download these programs. 
+https://swcarpentry.github.io/workshop-template/#setup
+
+If you have any problems, please consult this Wiki help page: https://github.com/swcarpentry/workshop-template/wiki/Configuration-Problems-and-Solutions
+
+
+2. Signup for a GitHub account
+Create a new GitHub account if you don't already have one: https://github.com/. Click on green button, select the free account, and confirm your account via the link sent to your email. 
+
+If you want to keep your code private to share with collaborators online, ask for a discount for academics: https://education.github.com/discount_requests/new 
+

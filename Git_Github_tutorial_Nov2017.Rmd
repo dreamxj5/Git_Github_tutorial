@@ -1,0 +1,335 @@
+---
+title: "Git & GitHub Tutorial"
+author: "Jessica Walsh"
+date: "5 December 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Version control and collaborating with Git and Github: To save your future self from stress!  
+
+## Description  
+
+Learn the benefits of using Git to track your changes, improve workflow and share code in collaborative projects. This will be designed for beginners, as we will go over the basics of Git and GitHub. Basic knowledge of Bash and R Studio will be helpful.
+
+![Git can be used to prevent this from happening!](phd101212s.gif)
+
+## Time and Place
+
+**Where:** !!! IMPORTANT !!! Workshop in different room than usual.  Room 3008, W.A.C. Bennett Library, SFU Burnaby Campus 
+
+**When:** Tuesday, December 5th, 2017 at 3:00-4:00 PM
+
+
+## Required Preparation
+
+### Assumed Knowledge
+
+Basic use of Bash Shell is preferred, but not necessary. 
+Basic use of R and RStudio, and understanding of RStudio Projects is preferable.
+
+
+### Software Dependencies
+
+1. Download Bash Sell, Git, a Text Editor, R and R studio.
+
+These user friendly instructions from Software Carpentry show how to download these programs. 
+https://swcarpentry.github.io/workshop-template/#setup
+
+If you have any problems, please consult this Wiki help page: https://github.com/swcarpentry/workshop-template/wiki/Configuration-Problems-and-Solutions
+
+
+2. Signup for a GitHub account
+Create a new GitHub account if you don't already have one: https://github.com/. Click on green button, select the free account, and confirm your account via the link sent to your email. 
+
+If you want to keep your code private to share with collaborators online, ask for a discount: https://education.github.com/discount_requests/new 
+
+
+# Things we will cover today  
+
+* What is git and why should we use it?  
+* Setting up a git repository  
+* Adding and committing changes to git repository 
+* Other git terminology, functions and help files
+* Using GitHub
+* Using Git in RStudio
+
+Note: This 1 hr course is a quick taste tester. Some material for this tutorial was adapted from the Software Carpentry Git Course: https://swcarpentry.github.io/git-novice/. The 3hr Software Carpentry Course is excellent for learning more git functions. 
+
+# What is git and why should we use it? 
+
+* Git is a version control system that tracks any changes you make to each file. For text or code files, it tracks any changes line by line.  This helps if you accidentally break your code. You can revert back to an old version or you can see the line of code causing the errors. 
+
+* It avoids multiple versions of the same file. You only have 1 copy. Older versions are hidden and remembered by Git. This keeps your folders tidy and clean. 
+
+* You can work with collaborators around the world. Everyone can work on code simultaneously without messing things up and loosing bits. It is smart enough to automatically merge changes to a file, and ask you to confirm merges if things get complicated. This collaboration aspect of Git is through the online GitHub repository. 
+
+* You can share your code publicly (or privately) via GitHub. If you want to create a package or show the analysis code you did for a paper, you can store it here. This is also an excellent place to find up and coming R packages and stats development from the pros. 
+
+* You can use the online repository as a back up for your code (and possibly data).
+
+For most people just need to use it for the first two reasons - to protect their future selves from frustration and tears. 
+
+#Setting up a Git repository
+Open up Shell, Git Bash or Terminal.
+
+Let's check that git is installed correctly on your computer
+```{shell}
+$ git       
+```
+
+Navigate to the Desktop, and create a new directory called 'Rain'. Folder name inspired by Vancouver.
+```{shell}
+$ cd Desktop  #cd changes directory
+$ ls          #ls shows a list of what the current directory contains
+$ mkdir Rain  #mkdir creates new directory
+$ cd Rain     
+$ ls          #Currently the Rain directory is empty
+```
+
+Create a Git repository within this 'Rain' folder. Anything within this directory could potentially be tracked by Git, if asked to.   
+```{shell}
+$ git init    #git init starts a new Git repository
+$ ls          #You can't see anything different in the Rain folder
+$ ls -a       #Now this shows you there is a hidden .git folder. The '-a' asks to see 'all' contents.
+```
+
+We can look inside the .git folder. This is where Git tracks the history of documents: the internal working guts of git. But really, we never need to look in here or change anything. It is simply good to know that it exists and we can leave it alone.  
+```{shell}
+$ cd .git     
+$ ls          #Lists a few folders where Git tracks files
+$ cd ..       #To move back to directory above the current directory '~Desktop/Rain (master)'
+$ pwd         #pwd checks which directory you are in.
+```
+
+#Adding and tracking files
+Now we will add a file we want to track. For your research, this directory is the main folder where all your code and data will be stored. You can have sub folders for data, analysis, plots, etc. These can all be tracked by the git repository. But you must specify which files will be tracked for version control.
+
+You can do this multiple ways. You can open a text editor manually, type some text and save it in the 'Rain' folder manually. You can also do it from the command line as shown below. Depending on your system, you can use nano, notepad, Emacs, Vim etc. 
+```{shell}
+$ nano rainy_days.txt    #OR
+$ notepad rainy_days.txt    #and follow prompts
+```
+
+In my text editor I will type:
+```{shell}
+It rains a lot in Vancouver. 
+```
+Save this file as 'rainy_days.txt' in the Rain folder.
+
+Check if this file is there:
+```{shell}
+$ pwd    #check you are in Rain directory.
+$ ls     #see if file is there. 
+```
+
+Lets check that status of the Git repository.
+```{shell}
+$ git status
+```
+
+The output should read:
+```{shell}
+$ git status
+On branch master
+
+Initial commit
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+        rainy_days.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+```
+Its says that there is 1 untracked file: rainy_days.txt. This is where we get to learn the nuts and bolts of Git! 
+
+Git works in several steps: saving, adding and committing. You save your file as normal. Then you need to tell Git to start tracking it, by 'adding' it to the 'staging area' using the command 'git add'. Finally you 'commit' the changes to the 'repository'. The two step process (adding then committing) allows you to check which files you want to track before committing any changes.
+
+![Diagram courtesy of Software Carpentry:Version Control with Git course https://swcarpentry.github.io/git-novice/04-changes/](git-staging-area.svg)
+
+To add the file, to tell Git to track any changes in this file. 
+```{shell} 
+$ git add rainy_days.txt
+$ git status
+```
+
+You will see:
+```{shell}
+On branch master
+
+Initial commit
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+
+        new file:   rainy_days.txt
+```
+
+To commit the file, for Git to track the changes:
+```{shell} 
+$ git commit -m "initial commit"
+``` 
+
+```{shell} 
+$ git commit -m "initial commit"
+
+[master (root-commit) bed1c25] initial commit
+ 1 file changed, 1 insertion(+)
+ create mode 100644 rainy_days.txt
+```
+Note: the '-m' tells Git to save a message with the commit, which is written in the quotation marks. Git will not let you commit anything without a detailed message. This is how you save your future self from stress! 
+
+##Make some more changes and commit them  
+
+###Challenge exercise:  
+Add some next text to the document rainy_days.txt. Save it. Note the changes to the status of the git repository. Stage the file to the git repository and then commit the changes. 
+
+1. Open text file 'rainy_days.txt' in text editor. Type 'But its sunny today!' on a new line. Save document.  
+2. Look at the status of git repository (repo)  
+3. Stage changes in file to repo  
+4. Commit changes with a message 
+5. Look at message - saying the changes that it has committed (with insertions and deletions)
+6. Check git status again to make sure all files have been tracked. 
+
+.  
+.  
+.  
+.  
+
+###Answer  
+```{shell}
+#1. Open file 'rainy_days.txt' in text editor, type 'But its sunny today!' on a new line. Save document. 
+
+#2. In Terminal or GitBash
+$ git status
+# You'll see there is a new change to a file that is being tracked. 
+
+#3. stage changes
+$ git add "rainy_days.txt"
+$ git status # to see which files have been staged
+
+#4. commit changes
+$ git commit -m "added text about weather today"
+
+#5. Check commit message to make sure it worked.
+
+#6. check git status
+$ git status
+```
+
+#Reminders of Git terminology and key commands
+
+```{shell} 
+#Check repository status
+$ git status
+
+#Add file to git staging area
+$ git add 'file_name.txt'
+
+#Commit file to git repo
+$ git commit -m "message about changes made"
+
+```
+
+Question: What is the difference between saving, staging and committing to Git.   
+
+
+# Git help files  
+Its pretty hard to break Git. Play around and experiment how you can add it to your daily work flow. There are many help files online. The warning or error messages are usually pretty helpful. If you ever get stuck in Bash or Shell: to list of git commands (-h) and to access Git manual (--h). 
+
+```{shell}
+$ git config -h
+$ git config --help
+```
+
+Other good websites  
+* https://guides.github.com/   
+* http://swcarpentry.github.io/git-novice  
+* https://www.git-tower.com/blog/git-cheat-sheet/    
+* http://www.cheat-sheets.org/saved-copy/git-cheat-sheet.pdf  
+
+
+# Next steps to becoming proficient at Git and Github  
+You should learn how to:  
+* configure your Git with username etc. Instructions: https://jennybc.github.io/2014-05-12-ubc/ubc-r/session03_git.html  
+* commit to a daily work flow of Git (Pull, Work, Save, Add, Commit, Push)  
+* ignore files using .gitignore  
+* use the history function   
+* do each step in RStudio or Python equivalent (much easier)  
+* link your local repository with GitHub  
+
+
+To gain more advanced skills you can learn how to:  
+* deal with more advanced complicated issues in Git Bash/Terminal  
+* create and use branches  
+* revert back to old files  
+* pull and push to GitHub online repo using R studio and Git Bash/Terminal  
+
+# Collaborating using Github online  
+###Terminology for Github  
+* Push - upload changes from your local repository to the online repository  
+* Pull - download changes from the online repo to your local repo  
+* Fork - A copy of a repo on GitHub  
+* Clone - A copy on your computer - this can quickly become unsynced with global repo  
+
+# Using Git in RStudio  
+Demonstration on how to use Git in RStudio. This is the easiest most efficient way to use git every day.
+
+### Create R project with git repository
+> Go to File > New Project > New Directory > Empty Project.   
+> Change directory to your preferred location and tick box that says 'Create a git repository'.   
+> Lets call this new R Project 'Weather'.
+
+If it worked correctly, you should notice a new 'Git' tab along side the 'Environment, History' tabs. This is where you stage and commit files in the repository! 
+
+Sometimes it doesn't work (mostly on Macs). If you don't see that new tab, here are few help files on this issue: 
+
+* https://support.rstudio.com/hc/en-us/articles/200532077-Version-Control-with-Git-and-SVN  
+* https://jennybc.github.io/2014-05-12-ubc/ubc-r/session03_git.html  
+* https://support.rstudio.com/hc/en-us/community/posts/202188288-Git-not-working-in-RStudio-on-Mac 
+
+### Set up 
+* In RStudio add a few folders (Analysis, Plots, Data, Papers) within new RProject in 'File' tab  
+* Add a few files. e.g. a R script, Excel file and a pdf file. 
+* Stage the R and Excel files, and commit them with a message using the RStudio-Git interface. Click on the Diff or Commit button. Don't commit the pdf files.  
+
+### Git Ignore file  
+We don't want to track all files in repository. You can add these files or any type of file to the .gitignore file. 
+
+In RStudio, open the .gitignore file. We will add a few files to make life clean and simple. 
+
+> Add these files to the .gitignore file.   
+.Rproj.user  
+.Rhistory  
+.RData  
+.Ruserdata  
+.Rproj.user/  
+Weather.Rproj  
+.jpeg  
+Papers/  
+.pdf  
+> Save .gitignore file. Stage it and Commit. 
+
+
+## Git daily workflow  
+* Open R project  
+* Pull - If collaborating with others via GitHub: when you open your R project, pull any recent changes from online GitHub repo  
+* Work - do your awesome coding and analysis  
+* Save - save your work normally  
+* Add - stage all files you want to commit  
+* Commit- confirm changes for the day  
+* Push - if linked with online repo  
+* Congratulate yourself for your work today!  
+* Repeat tomorrow  
+
+This process takes a minute at the end of your day. Make it routine. It means you will have a clean slate the next day and your changes will be tracked and saved.  
+
+
+
+
+#Feedback  
+Please write on your sticky note 1 good thing, and 1 thing to improve. Thank you!  
